@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="main">
+            <div class="menu">
+                <h1 class="head">MENU</h1>
+                <div class="tasks">
+                    <div class="sub-head">
+                        <input type="text" placeholder="Search">
+                    </div>
+                    <div class="sub-head" id="sticky-wall">
+                        <h2 class="sub-text">Sticky Wall</h2>
+                    </div>
+                    <div class="sub-head" id="pending">
+                        <h2 class="sub-text">Pending</h2>
+                    </div>
+                    <div class="sub-head" id="completed">
+                        <h2 class="sub-text">Completed</h2>
+                    </div>
+                    <div class="sub-head" id="today">
+                        <h2 class="sub-text">Today</h2>
+                    </div>
+                    <div class="sub-head" id="upcoming">
+                        <h2 class="sub-text">Upcoming</h2>
+                    </div>
+                </div>
+                <div class="sign-out">
+                    <h2 class="sub-text">Sign-out</h2>
+                </div>
+            </div>
+            <div class="content">
+                <h1 class="content-title" id="current-title"></h1>
+                <div class="sticky-notes">
+                    <div class="grid">
+                        <div class="task-pattern">
+                        </div>
+                        <div class="task-add">
+                            <button class="add-btn">+</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="login-overlay">
+            <div class="login-box">
+                <div class="username">
+                    <h2 class="username-text">Choose Username</h2>
+                    <input type="text" placeholder="Create Username...">
+                </div>
+                <div class="password">
+                    <h2 class="password-text">Create Password</h2>
+                    <input type="password" placeholder="Create Password...">
+                </div>
+                <!-- Adding a Confirm Password field for safety -->
+                <div class="password" style="grid-column: span 2;">
+                    <h2 class="password-text">Confirm Password</h2>
+                    <input type="password" placeholder="Repeat Password...">
+                </div>
+                
+                <div class="submit-button" style="grid-column: span 2;">
+                    <button id="register-btn" class="submit-btn">Begin Journey</button>
+                    <h3 class="submit-text">Already have a key? <a href="index.html" style="color: #00aaff; text-decoration: none;">Login!</a></h3>
+                </div>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>

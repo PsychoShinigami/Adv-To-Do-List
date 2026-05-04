@@ -1,7 +1,8 @@
 <html>
-    <body>
+    <head>
         <link rel="stylesheet" href="style.css">
-        <div class="login"></div>
+    </head>
+    <body>
         <div class="main">
             <div class="menu">
                 <h1 class="head">MENU</h1>
@@ -31,8 +32,47 @@
             </div>
             <div class="content">
                 <h1 class="content-title" id="current-title"></h1>
-                <div class="grid"></div>
+                <div class="sticky-notes">
+                    <div class="grid">
+                        <div class="task-add">
+                            <button class="add-btn">+</button>
+                        </div>
+                </div>
             </div>
         </div>
+        <div class="login-overlay">
+            <div class="login-box">
+                <div class="username">
+                    <h2 class="username-text">Username</h2>
+                    <input type="text" placeholder="Enter Username...">
+                </div>
+                <div class="password">
+                    <h2 class="password-text">Password</h2>
+                    <input type="password" placeholder="Enter Password...">
+                </div>
+                <div class="submit-button" style="grid-column: span 2; margin-right: 0;">
+                    <button id="submit-btn" class="submit-btn">Submit</button>
+                    <h3 class="submit-text" id="submit-text">New to This Realm?<a href="register.html"class=" signup-link" style="color: #00aaff; text-decoration: none; cursor: pointer;">Sign Up!</a></h3>
+                </div>
+            </div>
+        </div>
+        <div class="task-overlay">
+            <div class="task-box">
+                <div class="task-name">
+                    <h2 class="sub-task-text">Task Name:</h2>
+                    <input type="text" placeholder="Enter task name">
+                </div>
+                <div class="task-desc">
+                    <h2 class="sub-task-text">Task Description:</h2>
+                    <input type="text" placeholder="Enter task description">
+                </div>
+                <div class="date">
+                    <h2 class="sub-task-text">Executing date:</h2>
+                    <input type="text" placeholder="Ex: 28/05">
+                </div>
+                <button class="task-save" id="save-btn">Save Task</button>
+            </div>
+        </div>
+        <script src="script.js"></script>
     </body>
 </html>

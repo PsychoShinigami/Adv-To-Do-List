@@ -7,7 +7,7 @@ body{
 
 input{
     border: 1px solid rgba(207, 204, 204, 0.581);
-    background-color: rgba(207, 204, 204, 0.581);
+    background-color:rgba(207, 204, 204, 0.474);
     min-width: 100%;
     min-height: 10%;
     padding-left: 20px;
@@ -45,6 +45,7 @@ input{
     padding-top: 1px;
     padding-bottom: 1px;
 }
+
 
 .sub-head:hover {
     background-color: #b3adadad;
@@ -90,4 +91,157 @@ input{
 .content-title{
     margin-top: 10px;
     margin-left: 10px;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap:20px;
+    padding: 20px;
+}
+
+
+
+.task-add{
+    display: flex;
+    border: 2px dashed #b3adad;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+    border-radius: 15px;
+}
+
+.add-btn{
+    background-color: transparent;
+    border: none;
+    font-size: 100px;
+    color: black;
+    transition: 0.4s;
+}
+
+.add-btn:hover{
+    cursor: pointer;
+    transform: scale(1.3);
+}
+
+.login-overlay{
+    position: fixed;
+    display: none;
+    top:0;
+    left:0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width:100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+}
+
+.login-box{
+    background-image: url("https://t4.ftcdn.net/jpg/04/90/92/53/360_F_490925381_X2GJ1xJMESaipzykLzpk5Okq6Dyq7cEU.jpg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 7px;
+    padding: 40px;
+    min-width: 400px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+
+.username-text, .password-text {
+    color: black;
+    font-size: 18px;
+    margin-bottom: 8px;
+    margin-left: 0; 
+}
+
+::placeholder {
+    color: rgba(0, 0, 0, 0.7);
+    opacity: 1; 
+}
+
+.submit-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.submit-btn {
+    background-color: #aec8ae;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 7px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #8da68d;
+    transform: translateY(-2px); 
+}
+
+.submit-btn:active{
+    transform: scale(0.8)
+}
+
+.task-overlay{
+    position: fixed;
+    display: none;
+    top:0;
+    left:0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width:100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+}
+
+.task-box{
+    background-color: rgb(176, 171, 171);
+    border-radius: 7px;
+    padding: 40px;
+    min-width: 400px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+
+.add-task-title{
+    font-size: 32px;
+    font-weight: bold;
+    color: rgb(11, 101, 71);
+}
+
+.sub-task-text{
+    color: black;
+    font-size:22px;
+    margin-bottom: 8px;
+    margin-left: 0; 
+}
+
+.task-save{
+    background-color: green;
+    margin-top:20px;
+    margin-left:20px;
+    max-width: 70%;
+    border-radius: 25px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.4s;
+    border: solid 1px black;
+}
+
+.task-save:active{
+    transform: scale(0.9)
 }
