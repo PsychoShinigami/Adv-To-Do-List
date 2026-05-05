@@ -22,22 +22,22 @@ def save_user(new_user):
 def register():
     data = request.get_json()
     save_user(data)
-    return jsonify({"status": "success", "message": "Mortal registered!"})
+    return jsonify({"status": "success", "message": "User registered!"})
 
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
     if not os.path.exists('Login-info.json'):
-        return jsonify({"status": "error", "message": "The Realm is empty. Register first!"})
-        
+        return jsonify({"status": "error", "message": "The data is empty. Register first!"})
+
     with open('Login-info.json', 'r') as f:
         all_users = json.load(f)
-        
+
     for i in all_users:
         if i['username'] == data['username'] and i['password'] == data['password']:
-            return jsonify({"status": "success", "message": "Access Granted!"})
-            
-    return jsonify({"status": "error", "message": "Invalid Mortal Name or Death Key"})
+            return jsonify({"status": "success", "message": "Access Granted!", "tasks": i.get('tasks', [])})
+
+    return jsonify({"status": "error", "message": "Invalid Userame or Password"})
 
 @app.route('/add_task', methods=['POST'])
 def add_task():
@@ -50,7 +50,7 @@ def add_task():
     }
     if not os.path.exists('Login-info.json'):
         return jsonify({"status": "error", "message": "Database not found"})
-    
+
     with open('Login-info.json', 'r+') as f:
         users=json.load(f)
         user_found = False
@@ -71,8 +71,8 @@ def add_task():
 
     return jsonify({"status": "error", "message": "User not found!"})
 
-    
-    
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -17,6 +17,12 @@ if (submitBtn) {
         if (result.status==='success'){
             loggedInUser=user
             document.querySelector('.login-overlay').style.display='none';
+
+            if (result.tasks) {
+                result.tasks.forEach(task => {
+                    renderTask(task.Tname, task.Tdescription, task.Tdate);
+                });
+            }
         } else{
             alert(result.message);
         }
@@ -98,8 +104,13 @@ if (saveBtn){
             })
         });
 
-    document.querySelector('.task-overlay').style.display = 'none';
-    })
+        const result = await response.json();
+        if (result.status === 'success') {
+            renderTask(taskName, taskDesc, taskDate);
+            document.querySelector('.task-overlay').style.display = 'none';
+            document.querySelectorAll('.task-box input').forEach(i => i.value = "");
+            }
+        });
 }
 
 const menuItems= document.querySelectorAll('.sub-head');
@@ -113,3 +124,37 @@ menuItems.forEach(item =>{
         }
     });
 });
+
+function renderTask(name, desc, date) {
+    const grid = document.querySelector('.grid');
+    const addButton = document.querySelector('.task-add');
+    
+    const taskCard = document.createElement('div');
+    taskCard.className = 'task-pattern';
+
+    taskCard.innerHTML = `
+        <div class="task-content" style="padding: 15px; height: 100%; display: flex; flex-direction: column;">
+
+            <div class="status-icon">✔</div>
+            
+            <h2 class="t-name" style="margin-bottom: 5px;">${name}</h2>
+            <p class="t-desc" style="font-size: 14px; margin-bottom: 10px; flex-grow: 1;">${desc}</p>
+            <p class="t-date" style="font-size: 12px; color: gray; margin-top: auto;">Date: ${date}</p>
+            
+            <button class="complete-trigger" >Mark Done</button>
+        </div>
+    `;
+
+    const doneIcon = taskCard.querySelector('.status-icon');
+    const completeBtn = taskCard.querySelector('.complete-trigger');
+
+    completeBtn.addEventListener('click', () =>{
+        doneIcon.style.display='block';
+        taskCard.style.opacity = '0.7';
+        taskCard.style.backgroundColor = '#e8f5e9';
+        completeBtn.style.display = 'none'
+        taskCard.querySelector('.t-name').style.textDecoration = 'line-through';
+    });
+
+    grid.insertBefore(taskCard, addButton);
+}
