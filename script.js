@@ -222,6 +222,8 @@ function showFilteredTasks(filterType) {
             shouldShow = !task.completed;
         } else if (filterType === "Today") {
             shouldShow = task.Tdate === todayDate;
+        } else if (filterType === "Upcoming") {
+            shouldShow = task.Tdate.trim() > todayDate;
         }
 
         if (shouldShow) {
