@@ -1,3 +1,4 @@
+let allTasksData = [];
 let loggedInUser = "";
 window.onload = () => {
     document.querySelector('.login-overlay').style.display = 'flex';
@@ -13,20 +14,14 @@ if (submitBtn) {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({username: user, password: pass})
         });
+
         const result=await response.json();
         if (result.status==='success'){
             loggedInUser=user
+            allTasksData = result.tasks || [];
+            itemTitle.innerText = "Sticky Wall";
+            showFilteredTasks("Sticky Wall");
             document.querySelector('.login-overlay').style.display='none';
-
-            if (result.tasks) {
-                const grid = document.querySelector('.grid');
-                const addBtn = document.querySelector('.task-add');
-                grid.innerHTML = ''; 
-                grid.appendChild(addBtn);
-                result.tasks.forEach(task => {
-                    renderTask(task.Tname, task.Tdescription, task.Tdate, task.completed || false);
-                });
-            }
         } else{
             alert(result.message);
         }
@@ -110,7 +105,15 @@ if (saveBtn){
 
         const result = await response.json();
         if (result.status === 'success') {
-            renderTask(taskName, taskDesc, taskDate);
+            const newTask = {
+                Tname: taskName,
+                Tdescription: taskDesc,
+                Tdate: taskDate,
+                completed: false
+            };
+            allTasksData.push(newTask); 
+            itemTitle.innerText = "Sticky Wall";
+            showFilteredTasks(itemTitle.innerText);
             document.querySelector('.task-overlay').style.display = 'none';
             document.querySelectorAll('.task-box input').forEach(i => i.value = "");
             }
@@ -123,8 +126,10 @@ const itemTitle= document.getElementById('current-title')
 menuItems.forEach(item =>{
     item.addEventListener('click', () =>{
         const textElement= item.querySelector('.sub-text');
-        if (textElement){
-            itemTitle.innerText=textElement.innerText
+        if (textElement) {
+            const filterName = textElement.innerText;
+            itemTitle.innerText = filterName;
+            showFilteredTasks(filterName);
         }
     });
 });
@@ -195,4 +200,32 @@ function renderTask(name, desc, date, isCompleted = false) {
     });
 
     grid.insertBefore(taskCard, addButton);
+}
+
+function showFilteredTasks(filterType) {
+    const grid = document.querySelector('.grid');
+    const addBtn = document.querySelector('.task-add');
+    
+    grid.innerHTML = ''; 
+    grid.appendChild(addBtn);
+
+    const todayDate = new Date().toISOString().split('T')[0];
+
+    allTasksData.forEach(task => {
+        let shouldShow = false;
+
+        if (filterType === "Sticky Wall" || filterType === "All Tasks") {
+            shouldShow = true;
+        } else if (filterType === "Completed") {
+            shouldShow = task.completed === true;
+        } else if (filterType === "Pending") {
+            shouldShow = !task.completed;
+        } else if (filterType === "Today") {
+            shouldShow = task.Tdate === todayDate;
+        }
+
+        if (shouldShow) {
+            renderTask(task.Tname, task.Tdescription, task.Tdate, task.completed || false);
+        }
+    });
 }
