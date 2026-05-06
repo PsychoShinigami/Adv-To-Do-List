@@ -19,8 +19,12 @@ if (submitBtn) {
             document.querySelector('.login-overlay').style.display='none';
 
             if (result.tasks) {
+                const grid = document.querySelector('.grid');
+                const addBtn = document.querySelector('.task-add');
+                grid.innerHTML = ''; 
+                grid.appendChild(addBtn);
                 result.tasks.forEach(task => {
-                    renderTask(task.Tname, task.Tdescription, task.Tdate);
+                    renderTask(task.Tname, task.Tdescription, task.Tdate, task.completed || false);
                 });
             }
         } else{
@@ -125,35 +129,69 @@ menuItems.forEach(item =>{
     });
 });
 
-function renderTask(name, desc, date) {
+function renderTask(name, desc, date, isCompleted = false) {
+    /* Took the help of AI for the function renderTask */
     const grid = document.querySelector('.grid');
     const addButton = document.querySelector('.task-add');
     
     const taskCard = document.createElement('div');
     taskCard.className = 'task-pattern';
 
-    taskCard.innerHTML = `
-        <div class="task-content" style="padding: 15px; height: 100%; display: flex; flex-direction: column;">
+    // 1. Force the initial visibility based on isCompleted
+    const iconDisplay = isCompleted ? 'block' : 'none';
+    const btnDisplay = isCompleted ? 'none' : 'block';
+    const titleDecoration = isCompleted ? 'line-through' : 'none';
 
-            <div class="status-icon">✔</div>
+    taskCard.innerHTML = `
+        <div class="task-content" style="padding: 15px; height: 100%; display: flex; flex-direction: column; position: relative;">
+ 
+            <div class="status-icon" style="display: ${iconDisplay}; color: green; font-weight: bold;">✔</div>
             
-            <h2 class="t-name" style="margin-bottom: 5px;">${name}</h2>
+            <h2 class="t-name" style="margin-bottom: 5px; text-decoration: ${titleDecoration}; text-transform: uppercase;">${name}</h2>
             <p class="t-desc" style="font-size: 14px; margin-bottom: 10px; flex-grow: 1;">${desc}</p>
             <p class="t-date" style="font-size: 12px; color: gray; margin-top: auto;">Date: ${date}</p>
-            
-            <button class="complete-trigger" >Mark Done</button>
+
+            <button class="complete-trigger" style="display: ${btnDisplay}; margin-top: 10px; cursor: pointer;">Mark Done</button>
         </div>
     `;
+
+    // 2. Set the background if already done
+    if (isCompleted) {
+        taskCard.style.opacity = '0.7';
+        taskCard.style.backgroundColor = '#e8f5e9';
+    }
 
     const doneIcon = taskCard.querySelector('.status-icon');
     const completeBtn = taskCard.querySelector('.complete-trigger');
 
-    completeBtn.addEventListener('click', () =>{
-        doneIcon.style.display='block';
-        taskCard.style.opacity = '0.7';
-        taskCard.style.backgroundColor = '#e8f5e9';
-        completeBtn.style.display = 'none'
-        taskCard.querySelector('.t-name').style.textDecoration = 'line-through';
+    // 3. The Event Listener
+    completeBtn.addEventListener('click', async () => {
+        try {
+            const response = await fetch('https://PsychoShinigamii.pythonanywhere.com/complete_task', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    username: loggedInUser,
+                    task_name: name
+                })
+            });
+
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+                // UI Updates
+                doneIcon.style.display = 'block';
+                completeBtn.style.display = 'none';
+                taskCard.style.opacity = '0.7';
+                taskCard.style.backgroundColor = '#e8f5e9';
+                taskCard.querySelector('.t-name').style.textDecoration = 'line-through';
+            } else {
+                alert("Error from Realm: " + result.message);
+            }
+        } catch (err) {
+            console.error("Fetch failed:", err);
+            alert("Could not reach the server!");
+        }
     });
 
     grid.insertBefore(taskCard, addButton);

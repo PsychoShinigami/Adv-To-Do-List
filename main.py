@@ -71,8 +71,29 @@ def add_task():
 
     return jsonify({"status": "error", "message": "User not found!"})
 
+@app.route('/complete_task', methods=['POST'])
+def complete_task():
+    data=request.get_json()
+    username=data.get('username')
+    task_name=data.get('task_name')
 
+    if not os.path.exists('Login-info.json'):
+        return jsonify({"status": "error", "message": "File not found"})
+    
+    with open('Login-info.json', 'r+') as f:
+        users= json.load(f)
+        for a in users:
+            if a['username']==username:
+                for task in a.get('tasks', []):
+                    if task['Tname'] == task_name:
+                        task['completed'] = True 
+                        break
 
+        f.seek(0)
+        json.dump(users, f, indent=4)
+        f.truncate()  
+
+    return jsonify({"status": "success"})
 
 if __name__ == '__main__':
     app.run(debug=True)
