@@ -58,7 +58,7 @@ if (regBtn) {
         const result=await response.json();
         alert(result.message);
         if (result.status==='success'){
-            window.location.href='https://psychoshinigami.github.io/Adv-To-Do-List/index.html'
+            window.location.href='index.html'
         }
 
         });
