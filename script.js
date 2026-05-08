@@ -58,7 +58,7 @@ if (regBtn) {
         const result=await response.json();
         alert(result.message);
         if (result.status==='success'){
-            window.location.href='/'
+            window.location.href='https://psychoshinigami.github.io/Adv-To-Do-List/index.html'
         }
 
         });
@@ -154,7 +154,7 @@ function renderTask(name, desc, date, isCompleted = false) {
             
             <h2 class="t-name" style="margin-bottom: 5px; text-decoration: ${titleDecoration}; text-transform: uppercase;">${name}</h2>
             <p class="t-desc" style="font-size: 14px; margin-bottom: 10px; flex-grow: 1;">${desc}</p>
-            <p class="t-date" style="font-size: 12px; color: gray; margin-top: auto;">Date: ${date}</p>
+            <p class="t-date" style="font-size: 12px; color: gray; margin-top: auto; margin-bottom:20px">Date: ${date}</p>
 
             <button class="complete-trigger" style="display: ${btnDisplay}; margin-top: 10px; cursor: pointer;">Mark Done</button>
         </div>
