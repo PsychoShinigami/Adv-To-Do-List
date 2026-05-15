@@ -185,7 +185,7 @@ function renderTask(name, desc, date, isCompleted = false) {
                 if (taskToUpdate) {
                     taskToUpdate.completed = true;
                 }
-                
+                showFilteredTasks(itemTitle.innerText);
                 doneIcon.style.display = 'block';
                 completeBtn.style.display = 'none';
                 taskCard.style.opacity = '0.7';
