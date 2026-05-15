@@ -142,7 +142,6 @@ function renderTask(name, desc, date, isCompleted = false) {
     const taskCard = document.createElement('div');
     taskCard.className = 'task-pattern';
 
-    // 1. Force the initial visibility based on isCompleted
     const iconDisplay = isCompleted ? 'block' : 'none';
     const btnDisplay = isCompleted ? 'none' : 'block';
     const titleDecoration = isCompleted ? 'line-through' : 'none';
@@ -160,7 +159,6 @@ function renderTask(name, desc, date, isCompleted = false) {
         </div>
     `;
 
-    // 2. Set the background if already done
     if (isCompleted) {
         taskCard.style.opacity = '0.7';
         taskCard.style.backgroundColor = '#e8f5e9';
@@ -169,7 +167,6 @@ function renderTask(name, desc, date, isCompleted = false) {
     const doneIcon = taskCard.querySelector('.status-icon');
     const completeBtn = taskCard.querySelector('.complete-trigger');
 
-    // 3. The Event Listener
     completeBtn.addEventListener('click', async () => {
         try {
             const response = await fetch('https://PsychoShinigamii.pythonanywhere.com/complete_task', {
@@ -184,7 +181,11 @@ function renderTask(name, desc, date, isCompleted = false) {
             const result = await response.json();
             
             if (result.status === 'success') {
-                // UI Updates
+                const taskToUpdate = allTasksData.find(t => t.Tname === name);
+                if (taskToUpdate) {
+                    taskToUpdate.completed = true;
+                }
+                
                 doneIcon.style.display = 'block';
                 completeBtn.style.display = 'none';
                 taskCard.style.opacity = '0.7';
